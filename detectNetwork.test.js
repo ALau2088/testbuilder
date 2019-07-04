@@ -182,7 +182,37 @@ describe('Maestro', function() {
         });
       })(i, j)
     }
-  }
-  
+  } 
 });
+
+describe('China UnionPay', function() {
+  var prefix = [...Array.from({ length: (622925 - 622126) / 1 + 1}, (_, i) => 622126 + (i * 1)), 624, 625, 626, 6282, 6283, 6284, 6285, 6286, 6287, 6288]
+  for (var i = 0; i < prefix.length; i++) {
+    for (var j = 16; j <= 19; j++){
+      (function(i, j){
+        it('has a prefix of ' + prefix[i] + ' and a length of ' + j, function() {
+          detectNetwork(prefix[i] + Math.pow(10, j - prefix[i].toString().length - 1).toString()).should.equal('China UnionPay')
+        });
+      })(i, j)
+    }
+  } 
+});
+
+// Switch same as 
+describe('Switch', function() {
+  var prefix = [4903, 4905, 4911, 4936, 564182, 633110, 6333, 6759]
+  for ( var i = 0; i < prefix.length; i++){
+    (function(i){
+      it('has a prefix of ' + prefix[i] + ' and a length of 16', function(){
+        detectNetwork(prefix[i] + Math.pow(10, 16 - prefix[i].toString().length - 1).toString())
+      })
+      it('has a prefix of ' + prefix[i] + ' and a length of 18', function(){
+        detectNetwork(prefix[i] + Math.pow(10, 18 - prefix[i].toString().length - 1).toString())
+      })
+      it('has a prefix of ' + prefix[i] + ' and a length of 19', function(){
+        detectNetwork(prefix[i] + Math.pow(10, 19 - prefix[i].toString().length - 1).toString())
+      })
+    })(i)
+  }
+})
 

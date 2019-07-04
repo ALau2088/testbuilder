@@ -17,13 +17,15 @@ var detectNetwork = function(cardNumber) {
   // console.log(cardNumber.substr(0, 2) === '34' || cardNumber.substr(0, 2) === '37' && cardNumber.length === 15)
   // console.log(cardNumber.substr(0, 1) === '4' && [13, 16, 19].some(function (el){ return el === cardNumber.length}))
   // console.log(['51', '52', '53', '54', '55'].some(function (el){ return el === cardNumber.substr(0, 2)}) && cardNumber.length === 16)
-  console.log(cardNumber)
+  //console.log(cardNumber)
   if ( cardNumber.substr(0, 2) === '38' || cardNumber.substr(0, 2) === '39' && cardNumber.length === 14){
     //console.log("Diner's Club")
     return "Diner's Club"
   } else if ( cardNumber.substr(0, 2) === '34' || cardNumber.substr(0, 2) === '37' && cardNumber.length === 15){
     //console.log("American Express")
     return "American Express"
+  } else if ([4903, 4905, 4911, 4936, 564182, 633110, 6333, 6759].some(function(el){return cardNumber.search(`${el}`) === 0}) && [16, 18, 19].some(function (el){return el === cardNumber.length})){
+    return "Switch" // Switch and Visa have some overlapping card numbers. Check Switch before Visa since Switch has longer prefix
   } else if (cardNumber.substr(0, 1) === '4' && [13, 16, 19].some(function (el){ return el === cardNumber.length})){
     return "Visa"
   } else if (['51', '52', '53', '54', '55'].some(function (el){ return el === cardNumber.substr(0, 2)}) && cardNumber.length === 16){
@@ -32,8 +34,10 @@ var detectNetwork = function(cardNumber) {
     return "Discover"
   } else if (['5018', '5020', '5038', '6304'].some(function(el){ return cardNumber.search(`${el}`) === 0}) && [12, 13, 14, 15, 16, 17, 18, 19].some(function (el){ return el === cardNumber.length})){
     return "Maestro"
+  } else if ([...Array.from({ length: (622925 - 622126) / 1 + 1}, (_, i) => 622126 + (i * 1)), 624, 625, 626, 6282, 6283, 6284, 6285, 6286, 6287, 6288].some(function(el){return cardNumber.search(`${el}`) === 0}) && [16, 17, 18, 19].some(function (el){ return el === cardNumber.length})) {
+    return "China UnionPay"
   } else {
     //console.log("Unknown card network")
     return "Unrecognized card network"
-  }
+  } 
 };
